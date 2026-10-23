@@ -1,11 +1,11 @@
 import data as d
 
 def main() -> None:
-    test, status, summary = d.load_data()
-    print(f"US market status:\n {status}")
-    print(f"US market summary:\n {summary}")
+    test = d.load_data() # , status, summary
+    # print(f"US market status:\n {status}")
+    # print(f"US market summary:\n {summary}")
 
-    print("-----------------------------------")
+    # print("-----------------------------------")
 
     for v in test:
         print(v)
