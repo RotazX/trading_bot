@@ -1,15 +1,14 @@
 import data as d
 
 def main() -> None:
-    test = d.load_data() # , status, summary
-    # print(f"US market status:\n {status}")
-    # print(f"US market summary:\n {summary}")
+    df, source = d.get_data("AAPL", "5d", "1h") 
 
-    # print("-----------------------------------")
+    print(f"Data is from {source}:")
+    print(df)
 
-    for v in test:
-        print(v)
-        print()
+    # for v in test:
+    #     print(v)
+    #     print()
 
 
 if __name__ == "__main__":
