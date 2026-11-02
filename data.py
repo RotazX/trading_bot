@@ -3,17 +3,19 @@ from yahoo import fetch_from_yahoo
 import pandas as pd
 
 def get_data(ticker, period, interval):
-    source = ""
     key = make_key(ticker, period, interval)
-    print(key)
 
-    df = load_cache(key)
+    try:
+        df = load_cache(key)
+    except Exception:
+        df = pd.DataFrame()
 
-    if isinstance(df, pd.DataFrame) and df.empty:
+    if isinstance(df, pd.DataFrame) and not df.empty:
         return df, "cache"
     else:
         df = fetch_from_yahoo(ticker, period, interval)
-        save_cache(key, df)
+        if df is not None:
+            save_cache(key, df)
+        else:
+            return None, "API"
         return df, "yahoo API"
-
-get_data("AAPL", "5d", "1h")
