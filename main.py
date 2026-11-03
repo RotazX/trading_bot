@@ -1,7 +1,8 @@
+import config
 import data as d
 
 def main() -> None:
-    df, source = d.get_data("AAPL", "5d", "1h") 
+    df, source = d.get_data(config.TICKER, config.PERIOD, config.INTERVAL) 
 
     print(f"Data is from {source}:")
     print(df)
@@ -9,7 +10,6 @@ def main() -> None:
     # for v in test:
     #     print(v)
     #     print()
-
 
 if __name__ == "__main__":
     main()
