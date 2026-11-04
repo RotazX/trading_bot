@@ -1,8 +1,10 @@
 import config
 import data as d
+import pandas as pd
 
 def main() -> None:
-    df, source = d.get_data(config.TICKER, config.PERIOD, config.INTERVAL) 
+    df, source = d.get_data(config.TICKER, config.START, config.END, config.INTERVAL) 
+    pd.set_option("display.precision", 3)
 
     print(f"Data is from {source}:")
     print(df)
