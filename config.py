@@ -6,7 +6,8 @@ MAX_AGE_DAILY = timedelta(hours=12)
 
 # What to analyse
 TICKER = "TSLA"
-PERIOD = "5d"
+START = "2025-01-01" 
+END = "2026-01-01"
 INTERVAL = "1h"
 
 # Strategy
