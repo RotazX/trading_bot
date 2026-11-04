@@ -4,8 +4,8 @@ from datetime import datetime, timezone
 
 CACHE_DIR = Path(__file__).parent / "cache"
 
-def make_key(ticker: str, period: str, interval: str) -> str:
-    return f"{ticker.upper()}__{period}__{interval}"
+def make_key(ticker: str, start: str, end: str, interval: str) -> str:
+    return f"{ticker.upper()}__{start}-{end}__{interval}"
 
 def _path(key: str) -> Path:
     return CACHE_DIR / f"{key}.parquet"
