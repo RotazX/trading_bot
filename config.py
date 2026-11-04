@@ -2,6 +2,7 @@ from datetime import timedelta
 
 # freshness limits (daily vs intraday), retry count
 MAX_AGE_INTRADAY = timedelta(minutes=15)
+MAX_AGE_HISTORICAL = timedelta(days=7)
 MAX_AGE_DAILY = timedelta(hours=12)
 
 # What to analyse
