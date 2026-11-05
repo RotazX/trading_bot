@@ -26,4 +26,4 @@ def fetch_from_tiingo(ticker: str, start: str, end: str, interval: str) -> pd.Da
         df = df[["date", *ADJUSTED]].rename(columns=ADJUSTED)
     df = df.set_index("date")
     df.index = pd.to_datetime(df.index, utc=True)
-    return df[df.index < pd.Timestamp(end, tz="utc")]
+    return df[df.index < pd.Timestamp(end, tz="utc")] # So the end would be exclusive, like in Yahoo
