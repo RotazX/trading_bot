@@ -2,3 +2,4 @@ pandas
 pyarrow
 yfinance
 pytest
+requests
