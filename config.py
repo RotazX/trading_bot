@@ -6,10 +6,10 @@ MAX_AGE_HISTORICAL = timedelta(days=7)
 MAX_AGE_DAILY = timedelta(hours=12)
 
 # What to analyse
-TICKER = "TSLA"
+TICKER = "NVDA"
 START = "2025-01-01" 
 END = "2026-01-01"
-INTERVAL = "1h"
+INTERVAL = "1d"
 
 # Strategy
 SHORT_WINDOW = 20      # short moving average (days)
