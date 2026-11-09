@@ -9,7 +9,7 @@ MAX_AGE_DAILY = timedelta(hours=12)
 TICKER = "NVDA"
 START = "2024-01-01" 
 END = "2026-01-01"
-INTERVAL = "1mo"
+INTERVAL = "1d"
 
 # Strategy
 SHORT_WINDOW = 20      # short moving average (days)
