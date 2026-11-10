@@ -21,5 +21,3 @@ def summary(equity: pd.Series, cash: float) -> dict[str, float]:
         "yearly_volatility": bar_returns.std() * bars_per_year ** 0.5,
         "max_drawdown": drawdown(equity).min(),
     }
-    
-
