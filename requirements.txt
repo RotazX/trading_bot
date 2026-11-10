@@ -3,3 +3,4 @@ pyarrow
 yfinance
 pytest
 requests
+matplotlib
