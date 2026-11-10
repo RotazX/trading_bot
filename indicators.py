@@ -1,19 +1,25 @@
 import pandas as pd
-import config
-from data import get_data
 
-def daily_returns(prices: pd.DataFrame) -> pd.DataFrame:
-    prices['NVDA_Pct_Change'] = prices["close"].pct_change() * 100
-    return prices['NVDA_Pct_Change']
+def returns(close:  pd.Series) -> pd.Series:
+    return close.pct_change().dropna().rename("return")
 
-def buy_and_hold(prices: pd.DataFrame, time: str, size: int):
-    rates = daily_returns(prices) / 100
-    compund_growth = (rates + 1).cumprod()
-    prices['buy_and_hold'] = size * compund_growth
-    return prices['buy_and_hold']
+def buy_and_hold(close: pd.Series, cash: float, fee: float = 0.0, start: str | None = None) -> pd.Series:
+    close = close.loc[start:]
+    return ((cash - fee) * close / close.iloc[0].rename("buy_and_hold"))
 
-df, source = get_data(config.TICKER, config.START, config.END, config.INTERVAL) 
+def drawdown(equity: pd.Series) -> pd.Series:
+    return (equity / equity.cummax() - 1).rename("drawdown")
 
-print(buy_and_hold(df, "2025-02-10", 1000000))
+def summary(equity: pd.Series, cash: float) -> dict[str, float]:
+    growth = equity.iloc[-1] / cash
+    years = (equity.index[-1] - equity.index[0].days / 365.25)
+    bar_returns = returns(equity)
+    bars_per_year = len(bar_returns) / years
+    return {
+        "total return": growth - 1,
+        "yearly_return": growth ** (1 / years) - 1,
+        "yearly_volatility": bar_returns.std() * bars_per_year ** 0.5,
+        "max_drawdown": drawdown(equity).min(),
+    }
     
 
