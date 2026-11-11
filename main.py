@@ -8,7 +8,7 @@ def main() -> None:
     df, source = get_data(config.TICKER, config.START, config.END, config.INTERVAL) 
     print(f"Data is from {source}")
 
-    equity = buy_and_hold(df["close"], config.STARTING_CASH, config.FEE_PER_TRADE)
+    equity = buy_and_hold(df["close"], config.STARTING_CASH, config.FEE_RATE, config.MIN_FEE)
     for name, value in summary(equity, config.STARTING_CASH).items():
         print(f"{name:>18}: {value:8.2%}")
 
