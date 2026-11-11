@@ -5,14 +5,14 @@ def returns(close:  pd.Series) -> pd.Series:
 
 def buy_and_hold(close: pd.Series, cash: float, fee: float = 0.0, start: str | None = None) -> pd.Series:
     close = close.loc[start:]
-    return ((cash - fee) * close / close.iloc[0].rename("buy_and_hold"))
+    return ((cash - fee) * close / close.iloc[0]).rename("buy_and_hold")
 
 def drawdown(equity: pd.Series) -> pd.Series:
     return (equity / equity.cummax() - 1).rename("drawdown")
 
 def summary(equity: pd.Series, cash: float) -> dict[str, float]:
     growth = equity.iloc[-1] / cash
-    years = (equity.index[-1] - equity.index[0].days / 365.25)
+    years = (equity.index[-1] - equity.index[0]).days / 365.25
     bar_returns = returns(equity)
     bars_per_year = len(bar_returns) / years
     return {
