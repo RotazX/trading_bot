@@ -17,5 +17,6 @@ LONG_WINDOW = 50       # long moving average (days)
 
 # Money
 STARTING_CASH = 1000.0   # euros
-FEE_PER_TRADE = 1.0      # euros per buy or sell; check your broker's real fee
+FEE_RATE = 0.001
+MIN_FEE = 1.0     # euros per buy or sell; check your broker's real fee
 TAX_RATE = 0.22          # on realised profit; check the current Estonian rate
