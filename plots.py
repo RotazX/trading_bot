@@ -1,36 +1,26 @@
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
-import numpy as np
-from indicators import daily_returns, buy_and_hold
-from data import get_data
-import config
+from matplotlib.ticker import PercentFormatter, StrMethodFormatter 
+from indicators import drawdown, returns
 
-def plot_returns_hist(returns, ticker):
-    fig, ax = plt.subplots(figsize=(10, 5))
-    ax.hist(returns.dropna(), bins=100)
-    ax.set_title(f"{ticker} daily returns")
-    ax.set_xlabel("Daily return")
-    ax.set_ylabel("Number of days")
-    plt.show()
+def plot_report(close, equity, ticker: str, interval: str) -> plt.Figure:
+    fig, axes = plt.subplot_mosaic([["value", "value"], ["drawdown", "hist"]], figsize=(11, 7), layout="constrained")
+    fig.suptitle(f"{ticker} buy and hold ({interval} bars)")
 
-def plot_returns_linear(returns, ticker):
-    fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(returns.dropna())
-    ax.set_title(f"{ticker} daily returns")
-    ax.set_xlabel("Daily return")
-    ax.set_ylabel("Number of days")
-    plt.show()
+    axes["value"].plot(equity)
+    axes["value"].set(title="Portfolio value", ylabel="Value (€)")
+    axes["value"].yaxis.set_major_formatter(StrMethodFormatter("{x:,.0f}"))
 
-def plot_buy_and_hold_linear(returns, ticker):
-    fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(returns.dropna())
-    ax.set_title(f"{ticker} buy and hold")
-    ax.set_xlabel("Daily return")
-    ax.set_ylabel("Number of days")
-    plt.show()
+    axes["drawdown"].fill_between(equity.index, drawdown(equity), color="tab:red", alpha=0.4)
+    axes["drawdown"].set(title="Drawdown from peak", ylabel="Below peak")
 
-df, source = get_data(config.TICKER, config.START, config.END, config.INTERVAL) 
+    axes["hist"].hist(returns(close), bins=100)
+    axes["hist"].set(title=f"Return per {interval} bar", xlabel="Return")
 
-print(daily_returns(df))
-plot_returns_hist(daily_returns(df), "NVDA")
-plot_returns_linear(daily_returns(df), "NVDA")
-plot_buy_and_hold_linear(buy_and_hold(df, "2025-02-10", 1000000), "NVDA")
+    axes["drawdown"].yaxis.set_major_formatter(PercentFormatter(1))
+    axes["hist"].xaxis.set_major_formatter(PercentFormatter(1))
+    for ax in axes.values():
+        ax.grid(alpha=0.3)
+    for name in ("value", "drawdown"):
+        axes[name].xaxis.set_major_formatter(mdates.ConciseDateFormatter(axes[name].xaxis.get_major_locator()))
+    return fig
