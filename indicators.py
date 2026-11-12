@@ -27,4 +27,13 @@ def summary(equity: pd.Series, cash: float) -> dict[str, float]:
     }
 
 def fee_report(close: pd.Series, cash: float, fee_rate: float, min_fee: float = 0.0, start: str | None = None) -> dict[str, float]:
-    pass
+    with_fees = buy_and_hold(close, cash, fee_rate, min_fee, start)
+    without_fees = buy_and_hold(close, cash, start=start)
+    buy_fee = trade_fee(cash, fee_rate, min_fee)
+    sell_fee = trade_fee(with_fees.iloc[-1], fee_rate, min_fee)
+    return {
+        "buy_fee": buy_fee,
+        "sell_fee": sell_fee,
+        "fees_paid": buy_fee + sell_fee,
+        "lost_to_fees": without_fees.iloc[-1] - (with_fees.iloc[-1] - sell_fee),
+    }
